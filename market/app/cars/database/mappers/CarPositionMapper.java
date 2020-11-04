@@ -23,7 +23,7 @@ public interface CarPositionMapper {
         @Result(property = "kind", column = "kindId",  javaType=cars.database.beans.CarKind.class, one=@One(select = "cars.database.mappers.CarKindMapper.getKindById")),
         @Result(property = "model", column = "modelId", javaType=cars.database.beans.CarModel.class, one=@One(select = "cars.database.mappers.CarModelMapper.getModelById"))
       })
-	@Select("SELECT kindId, modelId, yearIssue, od, price from market.carposition")
+	@Select("SELECT * from market.carposition")
 	List<CarPosition> getCarPositions();
 	
 	@Delete("DELETE from market.carposition")

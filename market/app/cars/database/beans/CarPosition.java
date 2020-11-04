@@ -1,7 +1,5 @@
 package cars.database.beans;
 
-import java.util.Date;
-
 import cars.database.beans.CarKind;
 import cars.database.beans.CarModel;
 
@@ -9,7 +7,7 @@ public class CarPosition {
 	private int id;
 	private CarKind kind;
 	private CarModel model;
-	private Date yearIssue;
+	private String yearIssue;
 	private int od;
 	private int price;
 	
@@ -37,11 +35,11 @@ public class CarPosition {
 		this.model = model;
 	}
 	
-	public Date getYearIssue() {
+	public String getYearIssue() {
 		return yearIssue;
 	}
 	
-	public void setYearIssue(Date yearIssue) {
+	public void setYearIssue(String yearIssue) {
 		this.yearIssue = yearIssue;
 	}
 

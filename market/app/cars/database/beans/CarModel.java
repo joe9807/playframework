@@ -1,16 +1,14 @@
 package cars.database.beans;
 
-import java.util.Date;
-
 public class CarModel {
 	private int id;
 	private String name;
-	private Date yearStart;
-	private Date yearEnd;
+	private String yearStart;
+	private String yearEnd;
 	
 	public CarModel() {}
 	
-	public CarModel(String name, Date yearStart, Date yearEnd) {
+	public CarModel(String name, String yearStart, String yearEnd) {
 		this.name=name;
 		this.yearStart=yearStart;
 		this.yearEnd=yearEnd;
@@ -24,19 +22,19 @@ public class CarModel {
 		this.id = id;
 	}
 	
-	public Date getYearStart() {
+	public String getYearStart() {
 		return yearStart;
 	}
 	
-	public void setYearStart(Date yearStart) {
+	public void setYearStart(String yearStart) {
 		this.yearStart = yearStart;
 	}
 	
-	public Date getYearEnd() {
+	public String getYearEnd() {
 		return yearEnd;
 	}
 	
-	public void setYearEnd(Date yearEnd) {
+	public void setYearEnd(String yearEnd) {
 		this.yearEnd = yearEnd;
 	}
 

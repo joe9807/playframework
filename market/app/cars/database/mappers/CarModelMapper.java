@@ -14,7 +14,7 @@ public interface CarModelMapper {
 	@Insert("INSERT into market.carmodel(name, yearStart, yearEnd) VALUES(#{name}, #{yearStart}, #{yearEnd})")
 	void addCarModel(CarModel carModel);
 	
-	@Select("SELECT name, yearStart, yearEnd from market.carmodel where id = #{id}")
+	@Select("SELECT * from market.carmodel where id = #{id}")
 	CarModel getModelById(int id);
 	
 	@Delete("DELETE from market.carmodel")

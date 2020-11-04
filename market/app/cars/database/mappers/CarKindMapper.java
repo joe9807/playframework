@@ -14,7 +14,7 @@ public interface CarKindMapper {
 	@Insert("INSERT into market.carkind(name, country) VALUES(#{name}, #{country})")
 	void addCarKind(CarKind carKind);
 	
-	@Select("SELECT name, country from market.carkind where id = #{id}")
+	@Select("SELECT * from market.carkind where id = #{id}")
 	CarKind getKindById(int id);
 	
 	@Delete("DELETE from market.carkind")
