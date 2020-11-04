@@ -1,0 +1,1 @@
+start sbt run
