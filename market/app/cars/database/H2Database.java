@@ -14,10 +14,10 @@ import cars.database.mappers.CarPositionMapper;
 public class H2Database extends GenericDatabase{
 	private static H2Database instance;
 
-	public static synchronized H2Database getInstance() {
+	public static synchronized H2Database getInstance(String dbDefaultUrl) {
 		if (instance == null) {	
 			instance = new H2Database();
-			instance.open();
+			instance.open(dbDefaultUrl);
 		}
 		return instance;
 	}

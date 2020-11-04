@@ -14,9 +14,9 @@ import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 public abstract class GenericDatabase {
 	private SqlSessionFactory sqlSessionFactory;
 	
-	public void open() {
+	public void open(String dbDefaultUrl) {
 		try {
-			PooledDataSource dataSource = new PooledDataSource("org.h2.Driver", "jdbc:h2:tcp://localhost/d:/h2/cars;MODE=PostgreSQL", "", "");
+			PooledDataSource dataSource = new PooledDataSource("org.h2.Driver", dbDefaultUrl, "", "");
 			Environment environment = new Environment("dev", new JdbcTransactionFactory(), dataSource);
 			Configuration configuration = new Configuration(environment);
 			configuration.addMappers("cars.database.mappers");

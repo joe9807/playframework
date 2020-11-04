@@ -1,15 +1,17 @@
-@()
-
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script type="text/javascript">
 	$.ajaxSetup({ cache: false});
-
+	
 	$.get('@routes.MarketController.getCarKinds()', function(result){
 		var items = [];
 
 		 $.each(result, function(key, val) {
-			 var id = parseInt(val.id);
-		   items.push('<li id="' + key + '">' + val.name+' (' +val.country+ ')</li>');
+			 var id = val.id;
+			 items.push("<form action=\"@routes.MarketController.deleteCarKindById()\" method=\"post\" >");
+			 items.push('<input type="hidden" name="id" value="'+val.id+'"/>');
+		     items.push('<li id="' + val.id + '">' + val.name+' (' +val.country+ ')');
+		     items.push('<input type="image" src="@routes.Assets.at("images/remove.png")"/>');
+		   	 items.push("</li></form>");
 		 });
 		 
 		 $('#carKinds').append(items.join(''))
@@ -19,7 +21,7 @@
 		var items = [];
 
 		 $.each(result, function(key, val) {
-		   items.push('<li id="' + key + '">' + val.name+' (' +val.yearStart+ '/'+val.yearEnd+')</li>');
+		   items.push('<li id="' + val.id + '">' + val.name+' (' +val.yearStart+ '/'+val.yearEnd+')</li>');
 		 });
 		 
 		 $('#carModels').append(items.join(''))

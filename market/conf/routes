@@ -7,7 +7,7 @@ GET     /                           controllers.MarketController.index
 
 POST    /carKind/add		   controllers.MarketController.addCarKind(req: Request)
 GET      /carKind/all			   controllers.MarketController.getCarKinds(req: Request)
-DELETE 		/carKind/delete 	   controllers.MarketController.deleteCarKindById(req: Request, id:String)
+POST		/carKind/delete 	   controllers.MarketController.deleteCarKindById(req: Request)
 
 
 POST   /carModel/add		   controllers.MarketController.addCarModel(req: Request)
