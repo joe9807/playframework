@@ -1,0 +1,19 @@
+@()
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script type='text/javascript' src='@routes.Assets.at("carkinds.js")'></script>
+
+<ul id="carKinds"></ul>
+
+<form action="@routes.MarketController.addCarKind()" method="post">
+	<input type="text" name="name"  placeholder="name"/>
+	<input type="text" name="country" placeholder="country"/>
+	<button>Add Car Kind</button>
+</form>
+
+<form action="@routes.MarketController.addCarModel()" method="post">
+	<input type="text" name="name"  placeholder="name"/>
+	<input type="text" name="yearStart" placeholder="Year Start (yyyy-MM-dd)"/>
+	<input type="text" name="yearEnd" placeholder="Year End (yyyy-MM-dd)"/>
+	<button>Add Car Model</button>
+</form>
