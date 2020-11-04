@@ -20,6 +20,9 @@ public interface CarKindMapper {
 	@Delete("DELETE from market.carkind")
 	void deleteAll();
 	
+	@Delete("DELETE from market.carkind where id = #{id}")
+	void deleteCarKindById(int id);
+	
 	@Select("SELECT * from market.carkind")
 	List<CarKind> getCarKinds();
 }

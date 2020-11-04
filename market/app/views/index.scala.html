@@ -1,16 +1,40 @@
 @()
 
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<script type='text/javascript' src='@routes.Assets.at("carkinds.js")'></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript">
+	$.ajaxSetup({ cache: false});
+
+	$.get('@routes.MarketController.getCarKinds()', function(result){
+		var items = [];
+
+		 $.each(result, function(key, val) {
+			 var id = parseInt(val.id);
+		   items.push('<li id="' + key + '">' + val.name+' (' +val.country+ ')</li>');
+		 });
+		 
+		 $('#carKinds').append(items.join(''))
+	});
+	
+	$.get("@routes.MarketController.getCarModels()", {}, function(result){
+		var items = [];
+
+		 $.each(result, function(key, val) {
+		   items.push('<li id="' + key + '">' + val.name+' (' +val.yearStart+ '/'+val.yearEnd+')</li>');
+		 });
+		 
+		 $('#carModels').append(items.join(''))
+	});
+</script>
 
 <ul id="carKinds"></ul>
 
-<form action="@routes.MarketController.addCarKind()" method="post">
+<form action="@routes.MarketController.addCarKind()" method="post" >
 	<input type="text" name="name"  placeholder="name"/>
 	<input type="text" name="country" placeholder="country"/>
 	<button>Add Car Kind</button>
 </form>
 
+<ul id="carModels"></ul>
 <form action="@routes.MarketController.addCarModel()" method="post">
 	<input type="text" name="name"  placeholder="name"/>
 	<input type="text" name="yearStart" placeholder="Year Start (yyyy-MM-dd)"/>

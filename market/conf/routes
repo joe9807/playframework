@@ -5,11 +5,15 @@
 # An example controller showing a sample home page
 GET     /                           controllers.MarketController.index
 
-POST   /carKind/add		   controllers.MarketController.addCarKind(req: Request)
-GET   /carKind/all			       controllers.MarketController.getCarKinds(req: Request)
+POST    /carKind/add		   controllers.MarketController.addCarKind(req: Request)
+GET      /carKind/all			   controllers.MarketController.getCarKinds(req: Request)
+DELETE 		/carKind/delete 	   controllers.MarketController.deleteCarKindById(req: Request, id:String)
 
 
 POST   /carModel/add		   controllers.MarketController.addCarModel(req: Request)
+GET   /carModel/all		   controllers.MarketController.getCarModels(req: Request)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /javascripts/*file               controllers.Assets.at(path="/public", file)
+# Map static resources from the /public folder to the /assets URL path
+GET     /images/*file               controllers.Assets.at(path="/public", file)
