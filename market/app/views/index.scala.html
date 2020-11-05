@@ -4,41 +4,47 @@
 	
 	$.get('@routes.MarketController.getCarKinds()', function(result){
 		var items = [];
+		var itemsSelect = [];
 
 		 $.each(result, function(key, val) {
-			 items.push("<form action=\"@routes.MarketController.deleteCarKind()\" method=\"post\" >");
+			 itemsSelect.push('<option>'+val.name+'</option>');
+			 items.push('<form action=\"@routes.MarketController.deleteCarKind()\" method=\"post\" >');
 			 items.push('<input type="hidden" name="id" value="'+val.id+'"/>');
 		     items.push('<li id="' + val.id + '">' + val.name+' (' +val.country+ ')');
 		     items.push('<input type="image" src="@routes.Assets.at("images/remove.png")"/>');
-		   	 items.push("</li></form>");
+		   	 items.push('</li></form>');
 		 });
 		 
 		 $('#carKinds').append(items.join(''))
+		 $('#carKindsSelect').append(itemsSelect.join(''));
 	});
 	
 	$.get("@routes.MarketController.getCarModels()", function(result){
 		var items = [];
+		var itemsSelect = [];
 
 		 $.each(result, function(key, val) {
-		     items.push("<form action=\"@routes.MarketController.deleteCarModel()\" method=\"post\" >");
+			 itemsSelect.push('<option>'+val.name+'</option>');
+		     items.push('<form action=\"@routes.MarketController.deleteCarModel()\" method=\"post\" >');
 			 items.push('<input type="hidden" name="id" value="'+val.id+'"/>');
 			 items.push('<li id="' + val.id + '">' + val.name+' (' +val.yearStart+ '/'+val.yearEnd+')');
 		     items.push('<input type="image" src="@routes.Assets.at("images/remove.png")"/>');
-		   	 items.push("</li></form>");
+		   	 items.push('</li></form>');
 		 });
 		 
 		 $('#carModels').append(items.join(''))
+		 $('#carModelsSelect').append(itemsSelect.join(''));
 	});
 	
 	$.get("@routes.MarketController.getCarPositions()", function(result){
 		var items = [];
 
 		 $.each(result, function(key, val) {
-		     items.push("<form action=\"@routes.MarketController.deleteCarPosition()\" method=\"post\" >");
+		     items.push('<form action=\"@routes.MarketController.deleteCarPosition()\" method=\"post\" >');
 			 items.push('<input type="hidden" name="id" value="'+val.id+'"/>');
 			 items.push('<li id="' + val.id + '">' + val.kind.name+' '+val.model.name+' - odometer: ' +val.od+ '; Year Issue: '+val.yearIssue+'; Price: '+val.price);
 		     items.push('<input type="image" src="@routes.Assets.at("images/remove.png")"/>');
-		   	 items.push("</li></form>");
+		     items.push('</li></form>');
 		 });
 		 
 		 $('#carPositions').append(items.join(''))
@@ -62,8 +68,8 @@
 
 <ul id="carPositions"></ul>
 <form action="@routes.MarketController.addCarPosition()" method="post">
-	<input type="text" name="carKind"  placeholder="Car Kind"/>
-	<input type="text" name="carModel"  placeholder="Car Model"/>
+	<select id="carKindsSelect" name="carKindsSelect" ></select>
+	<select id="carModelsSelect" name="carModelsSelect" ></select>
 	<input type="text" name="od"  placeholder="od"/>
 	<input type="text" name="price" placeholder="price"/>
 	<input type="text" name="yearIssue" placeholder="Year Issue"/>

@@ -53,8 +53,8 @@ public class MarketController extends Controller {
     	CarKind carKind = new CarKind();
     	CarModel carModel = new CarModel();
     	
-    	carKind.setName(formFactory.form().bindFromRequest(request).field("carKind").value().get());
-    	carModel.setName(formFactory.form().bindFromRequest(request).field("carModel").value().get());
+    	carKind.setName(formFactory.form().bindFromRequest(request).field("carKindsSelect").value().get());
+    	carModel.setName(formFactory.form().bindFromRequest(request).field("carModelsSelect").value().get());
 
     	CarPosition carPosition = formFactory.form(CarPosition.class).bindFromRequest(request).get();
     	carPosition.setKind(carKind);
