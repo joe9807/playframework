@@ -16,7 +16,7 @@
 		 $('#carKinds').append(items.join(''))
 	});
 	
-	$.get("@routes.MarketController.getCarModels()", {}, function(result){
+	$.get("@routes.MarketController.getCarModels()", function(result){
 		var items = [];
 
 		 $.each(result, function(key, val) {
@@ -29,10 +29,23 @@
 		 
 		 $('#carModels').append(items.join(''))
 	});
+	
+	$.get("@routes.MarketController.getCarPositions()", function(result){
+		var items = [];
+
+		 $.each(result, function(key, val) {
+		     items.push("<form action=\"@routes.MarketController.deleteCarPosition()\" method=\"post\" >");
+			 items.push('<input type="hidden" name="id" value="'+val.id+'"/>');
+			 items.push('<li id="' + val.id + '">' + val.kind.name+' '+val.model.name+' - odometer: ' +val.od+ '; Year Issue: '+val.yearIssue+'; Price: '+val.price);
+		     items.push('<input type="image" src="@routes.Assets.at("images/remove.png")"/>');
+		   	 items.push("</li></form>");
+		 });
+		 
+		 $('#carPositions').append(items.join(''))
+	});
 </script>
 
 <ul id="carKinds"></ul>
-
 <form action="@routes.MarketController.addCarKind()" method="post" >
 	<input type="text" name="name"  placeholder="name"/>
 	<input type="text" name="country" placeholder="country"/>
@@ -45,4 +58,14 @@
 	<input type="text" name="yearStart" placeholder="Year Start"/>
 	<input type="text" name="yearEnd" placeholder="Year End"/>
 	<button>Add Car Model</button>
+</form>
+
+<ul id="carPositions"></ul>
+<form action="@routes.MarketController.addCarPosition()" method="post">
+	<input type="text" name="carKind"  placeholder="Car Kind"/>
+	<input type="text" name="carModel"  placeholder="Car Model"/>
+	<input type="text" name="od"  placeholder="od"/>
+	<input type="text" name="price" placeholder="price"/>
+	<input type="text" name="yearIssue" placeholder="Year Issue"/>
+	<button>Add Car to Market</button>
 </form>

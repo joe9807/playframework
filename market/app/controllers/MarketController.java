@@ -13,6 +13,7 @@ import cars.database.DatabaseExecutionContext;
 import cars.database.H2Database;
 import cars.database.beans.CarKind;
 import cars.database.beans.CarModel;
+import cars.database.beans.CarPosition;
 import play.data.FormFactory;
 import play.libs.concurrent.HttpExecution;
 import play.mvc.Controller;
@@ -38,15 +39,45 @@ public class MarketController extends Controller {
         return ok(views.html.index.render());
     }
     
-    public CompletionStage<Result> deleteCarModel(final Http.Request request) {
-    	CarModel carKind = formFactory.form(CarModel.class).bindFromRequest(request).get();
+    //Car Positions
+    public CompletionStage<Result> deleteCarPosition(final Http.Request request) {
+    	CarPosition carPosition = formFactory.form(CarPosition.class).bindFromRequest(request).get();
     	Executor customExecutor = HttpExecution.fromThread(customContext);
     	
     	return CompletableFuture.runAsync(() -> {
-    		H2Database.getInstance(config.getString("db.default.url")).deleteCarModelById(carKind.getId());
+    		H2Database.getInstance(config.getString("db.default.url")).deleteCarPositionById(carPosition.getId());
+    	}, customContext).thenApplyAsync(r->redirect(routes.MarketController.index()), customExecutor);
+    }
+
+    public CompletionStage<Result> addCarPosition(final Http.Request request) {
+    	CarKind carKind = new CarKind();
+    	CarModel carModel = new CarModel();
+    	
+    	carKind.setName(formFactory.form().bindFromRequest(request).field("carKind").value().get());
+    	carModel.setName(formFactory.form().bindFromRequest(request).field("carModel").value().get());
+
+    	CarPosition carPosition = formFactory.form(CarPosition.class).bindFromRequest(request).get();
+    	carPosition.setKind(carKind);
+    	carPosition.setModel(carModel);
+    	
+    	Executor customExecutor = HttpExecution.fromThread(customContext);
+    	
+    	return CompletableFuture.supplyAsync(() -> {
+    		H2Database.getInstance(config.getString("db.default.url")).addCarToMarket(carPosition);
+    		
+    		return carPosition;
     	}, customContext).thenApplyAsync(r->redirect(routes.MarketController.index()), customExecutor);
     }
     
+    public CompletionStage<Result> getCarPositions(final Http.Request request) {
+    	Executor customExecutor = HttpExecution.fromThread(customContext);
+    	
+    	return CompletableFuture.supplyAsync(() -> {
+    		return H2Database.getInstance(config.getString("db.default.url")).getCarPositions();
+    	}, customContext).thenApplyAsync(carKinds -> ok(play.libs.Json.toJson(carKinds.stream().collect(Collectors.toList()))), customExecutor);
+    }
+    
+    //Car Kinds
     public CompletionStage<Result> deleteCarKind(final Http.Request request) {
     	CarKind carKind = formFactory.form(CarKind.class).bindFromRequest(request).get();
     	Executor customExecutor = HttpExecution.fromThread(customContext);
@@ -67,6 +98,15 @@ public class MarketController extends Controller {
     	}, customContext).thenApplyAsync(r->redirect(routes.MarketController.index()), customExecutor);
     }
     
+    public CompletionStage<Result> getCarKinds(final Http.Request request) {
+    	Executor customExecutor = HttpExecution.fromThread(customContext);
+    	
+    	return CompletableFuture.supplyAsync(() -> {
+    		return H2Database.getInstance(config.getString("db.default.url")).getCarKinds();
+    	}, customContext).thenApplyAsync(carKinds -> ok(play.libs.Json.toJson(carKinds.stream().collect(Collectors.toList()))), customExecutor);
+    }
+    
+    //Car Models
     public CompletionStage<Result> addCarModel(final Http.Request request) {
     	CarModel carModel = formFactory.form(CarModel.class).bindFromRequest(request).get();
     	Executor customExecutor = HttpExecution.fromThread(customContext);
@@ -78,19 +118,20 @@ public class MarketController extends Controller {
     	}, customContext).thenApplyAsync(r->redirect(routes.MarketController.index()), customExecutor);
     }
     
-    public CompletionStage<Result> getCarKinds(final Http.Request request) {
-    	Executor customExecutor = HttpExecution.fromThread(customContext);
-    	
-    	return CompletableFuture.supplyAsync(() -> {
-    		return H2Database.getInstance(config.getString("db.default.url")).getCarKinds();
-    	}, customContext).thenApplyAsync(carKinds -> ok(play.libs.Json.toJson(carKinds.stream().collect(Collectors.toList()))), customExecutor);
-    }
-    
     public CompletionStage<Result> getCarModels(final Http.Request request) {
     	Executor customExecutor = HttpExecution.fromThread(customContext);
     	
     	return CompletableFuture.supplyAsync(() -> {
     		return H2Database.getInstance(config.getString("db.default.url")).getCarModels();
     	}, customContext).thenApplyAsync(carModels -> ok(play.libs.Json.toJson(carModels.stream().collect(Collectors.toList()))), customExecutor);
+    }
+    
+    public CompletionStage<Result> deleteCarModel(final Http.Request request) {
+    	CarModel carKind = formFactory.form(CarModel.class).bindFromRequest(request).get();
+    	Executor customExecutor = HttpExecution.fromThread(customContext);
+    	
+    	return CompletableFuture.runAsync(() -> {
+    		H2Database.getInstance(config.getString("db.default.url")).deleteCarModelById(carKind.getId());
+    	}, customContext).thenApplyAsync(r->redirect(routes.MarketController.index()), customExecutor);
     }
 }

@@ -28,4 +28,7 @@ public interface CarPositionMapper {
 	
 	@Delete("DELETE from market.carposition")
 	void deleteAll();
+	
+	@Delete("DELETE from market.carposition where id = #{id}")
+	void deleteCarPositionById(int id);
 }

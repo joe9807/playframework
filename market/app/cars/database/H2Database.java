@@ -87,4 +87,10 @@ public class H2Database extends GenericDatabase{
 			session.getMapper(CarModelMapper.class).deleteCarModelById(id);
 		});
 	}
+	
+	public void deleteCarPositionById(int id) {
+		doInTransaction(session->{
+			session.getMapper(CarPositionMapper.class).deleteCarPositionById(id);
+		});
+	}
 }
