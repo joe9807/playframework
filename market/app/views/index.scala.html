@@ -28,7 +28,7 @@
 				 items.push('<form action=\"@routes.MarketController.deleteCarKind()\" method=\"post\" >');
 				 items.push('<input type="hidden" name="id" value="'+val.id+'"/>');
 			     items.push('<li id="' + val.id + '">' + val.name+' (' +val.country+ ')');
-			     if (!kinds.includes(val.name)) items.push('<input type="image" src="@routes.Assets.at("images/remove.png")"/>');
+			     if (kinds.indexOf(val.name)==-1) items.push('<input type="image" src="@routes.Assets.at("images/remove.png")"/>');
 			   	 items.push('</li></form>');
 			 });
 			 
@@ -45,7 +45,7 @@
 			     items.push('<form action=\"@routes.MarketController.deleteCarModel()\" method=\"post\" >');
 				 items.push('<input type="hidden" name="id" value="'+val.id+'"/>');
 				 items.push('<li id="' + val.id + '">' + val.name+' (' +val.yearStart+ '/'+val.yearEnd+')');
-				 if (!models.includes(val.name)) items.push('<input type="image" src="@routes.Assets.at("images/remove.png")"/>');
+				 if (models.indexOf(val.name)==-1) items.push('<input type="image" src="@routes.Assets.at("images/remove.png")"/>');
 			   	 items.push('</li></form>');
 			 });
 			 
