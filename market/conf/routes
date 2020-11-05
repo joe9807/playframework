@@ -14,11 +14,11 @@ POST   /carModel/add		   controllers.MarketController.addCarModel(req: Request)
 GET   /carModel/all		   controllers.MarketController.getCarModels(req: Request)
 POST		/carModel/delete 	   controllers.MarketController.deleteCarModel(req: Request)
 
+
 POST   /carPosition/add		   controllers.MarketController.addCarPosition(req: Request)
 GET   /carPosition/all		   controllers.MarketController.getCarPositions(req: Request)
 POST		/carPosition/delete 	   controllers.MarketController.deleteCarPosition(req: Request)
 
-# Map static resources from the /public folder to the /assets URL path
-GET     /javascripts/*file               controllers.Assets.at(path="/public", file)
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /images/*file               controllers.Assets.at(path="/public", file)
