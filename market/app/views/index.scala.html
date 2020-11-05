@@ -2,40 +2,8 @@
 <script type="text/javascript">
 	$.ajaxSetup({ cache: false});
 	
-	$.get('@routes.MarketController.getCarKinds()', function(result){
-		var items = [];
-		var itemsSelect = [];
-
-		 $.each(result, function(key, val) {
-			 itemsSelect.push('<option>'+val.name+'</option>');
-			 items.push('<form action=\"@routes.MarketController.deleteCarKind()\" method=\"post\" >');
-			 items.push('<input type="hidden" name="id" value="'+val.id+'"/>');
-		     items.push('<li id="' + val.id + '">' + val.name+' (' +val.country+ ')');
-		     items.push('<input type="image" src="@routes.Assets.at("images/remove.png")"/>');
-		   	 items.push('</li></form>');
-		 });
-		 
-		 $('#carKinds').append(items.join(''))
-		 $('#carKindsSelect').append(itemsSelect.join(''));
-	});
-	
-	$.get("@routes.MarketController.getCarModels()", function(result){
-		var items = [];
-		var itemsSelect = [];
-
-		 $.each(result, function(key, val) {
-			 itemsSelect.push('<option>'+val.name+'</option>');
-		     items.push('<form action=\"@routes.MarketController.deleteCarModel()\" method=\"post\" >');
-			 items.push('<input type="hidden" name="id" value="'+val.id+'"/>');
-			 items.push('<li id="' + val.id + '">' + val.name+' (' +val.yearStart+ '/'+val.yearEnd+')');
-		     items.push('<input type="image" src="@routes.Assets.at("images/remove.png")"/>');
-		   	 items.push('</li></form>');
-		 });
-		 
-		 $('#carModels').append(items.join(''))
-		 $('#carModelsSelect').append(itemsSelect.join(''));
-	});
-	
+	var kinds = [];
+	var models = [];
 	$.get("@routes.MarketController.getCarPositions()", function(result){
 		var items = [];
 
@@ -45,10 +13,46 @@
 			 items.push('<li id="' + val.id + '">' + val.kind.name+' '+val.model.name+' - odometer: ' +val.od+ '; Year Issue: '+val.yearIssue+'; Price: '+val.price);
 		     items.push('<input type="image" src="@routes.Assets.at("images/remove.png")"/>');
 		     items.push('</li></form>');
+		     kinds.push(val.kind.name);
+		     models.push(val.model.name);
 		 });
 		 
 		 $('#carPositions').append(items.join(''))
-	});
+	}).always(function() {
+		$.get('@routes.MarketController.getCarKinds()', function(result){
+			var items = [];
+			var itemsSelect = [];
+
+			 $.each(result, function(key, val) {
+				 itemsSelect.push('<option>'+val.name+'</option>');
+				 items.push('<form action=\"@routes.MarketController.deleteCarKind()\" method=\"post\" >');
+				 items.push('<input type="hidden" name="id" value="'+val.id+'"/>');
+			     items.push('<li id="' + val.id + '">' + val.name+' (' +val.country+ ')');
+			     if (!kinds.includes(val.name)) items.push('<input type="image" src="@routes.Assets.at("images/remove.png")"/>');
+			   	 items.push('</li></form>');
+			 });
+			 
+			 $('#carKinds').append(items.join(''))
+			 $('#carKindsSelect').append(itemsSelect.join(''));
+		});
+		
+		$.get("@routes.MarketController.getCarModels()", function(result){
+			var items = [];
+			var itemsSelect = [];
+
+			 $.each(result, function(key, val) {
+				 itemsSelect.push('<option>'+val.name+'</option>');
+			     items.push('<form action=\"@routes.MarketController.deleteCarModel()\" method=\"post\" >');
+				 items.push('<input type="hidden" name="id" value="'+val.id+'"/>');
+				 items.push('<li id="' + val.id + '">' + val.name+' (' +val.yearStart+ '/'+val.yearEnd+')');
+				 if (!models.includes(val.name)) items.push('<input type="image" src="@routes.Assets.at("images/remove.png")"/>');
+			   	 items.push('</li></form>');
+			 });
+			 
+			 $('#carModels').append(items.join(''))
+			 $('#carModelsSelect').append(itemsSelect.join(''));
+		});
+	  });
 </script>
 
 <ul id="carKinds"></ul>
