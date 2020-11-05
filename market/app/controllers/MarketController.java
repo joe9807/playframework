@@ -38,7 +38,16 @@ public class MarketController extends Controller {
         return ok(views.html.index.render());
     }
     
-    public CompletionStage<Result> deleteCarKindById(final Http.Request request) {
+    public CompletionStage<Result> deleteCarModel(final Http.Request request) {
+    	CarModel carKind = formFactory.form(CarModel.class).bindFromRequest(request).get();
+    	Executor customExecutor = HttpExecution.fromThread(customContext);
+    	
+    	return CompletableFuture.runAsync(() -> {
+    		H2Database.getInstance(config.getString("db.default.url")).deleteCarModelById(carKind.getId());
+    	}, customContext).thenApplyAsync(r->redirect(routes.MarketController.index()), customExecutor);
+    }
+    
+    public CompletionStage<Result> deleteCarKind(final Http.Request request) {
     	CarKind carKind = formFactory.form(CarKind.class).bindFromRequest(request).get();
     	Executor customExecutor = HttpExecution.fromThread(customContext);
     	
