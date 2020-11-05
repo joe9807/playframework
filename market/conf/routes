@@ -19,6 +19,6 @@ POST   /carPosition/add		   controllers.MarketController.addCarPosition(req: Req
 GET   /carPosition/all		   controllers.MarketController.getCarPositions(req: Request)
 POST		/carPosition/delete 	   controllers.MarketController.deleteCarPosition(req: Request)
 
-
+GET   /carPosition/search			controllers.MarketController.searchCarPositions(req: Request)
 # Map static resources from the /public folder to the /assets URL path
 GET     /images/*file               controllers.Assets.at(path="/public", file)

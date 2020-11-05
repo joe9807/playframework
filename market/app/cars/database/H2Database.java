@@ -52,9 +52,9 @@ public class H2Database extends GenericDatabase{
 		});
 	}
 	
-	public List<CarPosition> getCarPositions() {
+	public List<CarPosition> getCarPositions(CarPosition searchCarPosition) {
 		return doInTransactionWithResult(session->{
-			return session.getMapper(CarPositionMapper.class).getCarPositions();
+			return session.getMapper(CarPositionMapper.class).getCarPositions(searchCarPosition);
 		});
 	}
 	

@@ -1,5 +1,6 @@
 package controllers;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.Executor;
@@ -35,11 +36,37 @@ public class MarketController extends Controller {
 		this.customContext=customContext;
 		this.config=config;
     }
+	
     public Result index() {
         return ok(views.html.index.render());
     }
     
+    //search api
+    public CompletionStage<Result> searchCarPositions(final Http.Request request) {
+    	CarPosition carPosition = formFactory.form(CarPosition.class).bindFromRequest(request).get();
+    	Executor customExecutor = HttpExecution.fromThread(customContext);
+    	
+    	return CompletableFuture.runAsync(() -> {
+    		List<CarPosition> carPositions = H2Database.getInstance(config.getString("db.default.url")).getCarPositions(carPosition);
+    		System.out.println(carPositions);
+    	}, customContext).thenApplyAsync(r->redirect(routes.MarketController.index()), customExecutor);
+    }
+    
     //Car Positions
+    private CarPosition bindCarPosition(final Http.Request request) {
+    	CarKind carKind = new CarKind();
+    	CarModel carModel = new CarModel();
+    	
+    	carKind.setName(formFactory.form().bindFromRequest(request).field("carKindsSelect").value().get());
+    	carModel.setName(formFactory.form().bindFromRequest(request).field("carModelsSelect").value().get());
+
+    	CarPosition carPosition = formFactory.form(CarPosition.class).bindFromRequest(request).get();
+    	carPosition.setKind(carKind);
+    	carPosition.setModel(carModel);
+    	
+    	return carPosition;
+    }
+    
     public CompletionStage<Result> deleteCarPosition(final Http.Request request) {
     	CarPosition carPosition = formFactory.form(CarPosition.class).bindFromRequest(request).get();
     	Executor customExecutor = HttpExecution.fromThread(customContext);
@@ -50,15 +77,7 @@ public class MarketController extends Controller {
     }
 
     public CompletionStage<Result> addCarPosition(final Http.Request request) {
-    	CarKind carKind = new CarKind();
-    	CarModel carModel = new CarModel();
-    	
-    	carKind.setName(formFactory.form().bindFromRequest(request).field("carKindsSelect").value().get());
-    	carModel.setName(formFactory.form().bindFromRequest(request).field("carModelsSelect").value().get());
-
-    	CarPosition carPosition = formFactory.form(CarPosition.class).bindFromRequest(request).get();
-    	carPosition.setKind(carKind);
-    	carPosition.setModel(carModel);
+    	CarPosition carPosition = bindCarPosition(request);
     	
     	Executor customExecutor = HttpExecution.fromThread(customContext);
     	
@@ -73,7 +92,7 @@ public class MarketController extends Controller {
     	Executor customExecutor = HttpExecution.fromThread(customContext);
     	
     	return CompletableFuture.supplyAsync(() -> {
-    		return H2Database.getInstance(config.getString("db.default.url")).getCarPositions();
+    		return H2Database.getInstance(config.getString("db.default.url")).getCarPositions(null);
     	}, customContext).thenApplyAsync(carKinds -> ok(play.libs.Json.toJson(carKinds.stream().collect(Collectors.toList()))), customExecutor);
     }
     

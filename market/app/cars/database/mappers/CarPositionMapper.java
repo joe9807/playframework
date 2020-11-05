@@ -8,9 +8,10 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.One;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.SelectProvider;
 
 import cars.database.beans.CarPosition;
+import cars.database.providers.CarPositionSelectProvider;
 
 @Mapper
 public interface CarPositionMapper {
@@ -23,8 +24,8 @@ public interface CarPositionMapper {
         @Result(property = "kind", column = "kindId",  javaType=cars.database.beans.CarKind.class, one=@One(select = "cars.database.mappers.CarKindMapper.getKindById")),
         @Result(property = "model", column = "modelId", javaType=cars.database.beans.CarModel.class, one=@One(select = "cars.database.mappers.CarModelMapper.getModelById"))
       })
-	@Select("SELECT * from market.carposition")
-	List<CarPosition> getCarPositions();
+	@SelectProvider(type=CarPositionSelectProvider.class, method="getCarPositions")
+	List<CarPosition> getCarPositions(CarPosition carPosition);
 	
 	@Delete("DELETE from market.carposition")
 	void deleteAll();
