@@ -10,6 +10,7 @@ scalaVersion := "2.13.3"
 libraryDependencies += guice
 libraryDependencies += "com.h2database" % "h2" % "1.4.199"
 libraryDependencies += "org.mybatis" % "mybatis" % "3.5.6"
+libraryDependencies += "org.apache.commons" % "commons-lang3" % "3.5"
 libraryDependencies ++= Seq(
   javaJdbc
 )
