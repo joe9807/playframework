@@ -72,8 +72,8 @@
 
 <ul id="carPositions"></ul>
 <form action="@routes.CarPositionController.addCarPosition()" method="post">
-	<select id="carKindsSelect" name="carKindsSelect" ></select>
-	<select id="carModelsSelect" name="carModelsSelect" ></select>
+	<select id="carKindsSelect" name="kind.name" ></select>
+	<select id="carModelsSelect" name="model.name" ></select>
 	<input type="text" name="od"  placeholder="od"/>
 	<input type="text" name="price" placeholder="price"/>
 	<input type="text" name="yearIssue" placeholder="Year Issue"/>

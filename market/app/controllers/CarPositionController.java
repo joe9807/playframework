@@ -10,8 +10,6 @@ import com.typesafe.config.Config;
 
 import cars.database.DatabaseExecutionContext;
 import cars.database.H2Database;
-import cars.database.beans.CarKind;
-import cars.database.beans.CarModel;
 import cars.database.beans.CarPosition;
 import play.data.FormFactory;
 import play.mvc.Controller;
@@ -48,12 +46,6 @@ public class CarPositionController extends Controller {
 
     public CompletionStage<Result> addCarPosition(final Http.Request request) {
     	CarPosition carPosition = formFactory.form(CarPosition.class).bindFromRequest(request).get();
-    	CarKind carKind = new CarKind();
-    	carKind.setName(formFactory.form().bindFromRequest(request).field("carKindsSelect").value().get());
-    	CarModel carModel = new CarModel(); 
-    	carModel.setName(formFactory.form().bindFromRequest(request).field("carModelsSelect").value().get());
-    	carPosition.setKind(carKind);
-    	carPosition.setModel(carModel);
     	
     	return CompletableFuture.runAsync(() -> {
     		database.addCarToMarket(carPosition);
