@@ -5,20 +5,21 @@
 # An example controller showing a sample home page
 GET     /                           controllers.MarketController.index
 
-POST    /carKind/add		   controllers.MarketController.addCarKind(req: Request)
-GET      /carKind/all			   controllers.MarketController.getCarKinds(req: Request)
-POST		/carKind/delete 	   controllers.MarketController.deleteCarKind(req: Request)
+POST    /carKind/add		   controllers.CarKindController.addCarKind(req: Request)
+GET      /carKind/all			   controllers.CarKindController.getCarKinds(req: Request)
+POST		/carKind/delete 	   controllers.CarKindController.deleteCarKind(req: Request)
 
 
-POST   /carModel/add		   controllers.MarketController.addCarModel(req: Request)
-GET   /carModel/all		   controllers.MarketController.getCarModels(req: Request)
-POST		/carModel/delete 	   controllers.MarketController.deleteCarModel(req: Request)
+POST   /carModel/add		   controllers.CarModelController.addCarModel(req: Request)
+GET   /carModel/all		   controllers.CarModelController.getCarModels(req: Request)
+POST		/carModel/delete 	   controllers.CarModelController.deleteCarModel(req: Request)
 
 
-POST   /carPosition/add		   controllers.MarketController.addCarPosition(req: Request)
-GET   /carPosition/all		   controllers.MarketController.getCarPositions(req: Request)
-POST		/carPosition/delete 	   controllers.MarketController.deleteCarPosition(req: Request)
+POST   /carPosition/add		   controllers.CarPositionController.addCarPosition(req: Request)
+GET   /carPosition/all		   controllers.CarPositionController.getCarPositions(req: Request)
+POST		/carPosition/delete 	   controllers.CarPositionController.deleteCarPosition(req: Request)
+GET   /carPosition/search			controllers.CarPositionController.searchCarPositions(req: Request)
 
-GET   /carPosition/search			controllers.MarketController.searchCarPositions(req: Request)
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /images/*file               controllers.Assets.at(path="/public", file)

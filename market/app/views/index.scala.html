@@ -4,11 +4,11 @@
 	
 	var kinds = [];
 	var models = [];
-	$.get("@routes.MarketController.getCarPositions()", function(result){
+	$.get("@routes.CarPositionController.getCarPositions()", function(result){
 		var items = [];
 
 		 $.each(result, function(key, val) {
-		     items.push('<form action=\"@routes.MarketController.deleteCarPosition()\" method=\"post\" >');
+		     items.push('<form action=\"@routes.CarPositionController.deleteCarPosition()\" method=\"post\" >');
 			 items.push('<input type="hidden" name="id" value="'+val.id+'"/>');
 			 items.push('<li id="' + val.id + '">' + val.kind.name+' '+val.model.name+' - odometer: ' +val.od+ '; Year Issue: '+val.yearIssue+'; Price: '+val.price);
 		     items.push('<input type="image" src="@routes.Assets.at("images/remove.png")"/>');
@@ -19,13 +19,13 @@
 		 
 		 $('#carPositions').append(items.join(''))
 	}).always(function() {
-		$.get('@routes.MarketController.getCarKinds()', function(result){
+		$.get('@routes.CarKindController.getCarKinds()', function(result){
 			var items = [];
 			var itemsSelect = [];
 
 			 $.each(result, function(key, val) {
 				 itemsSelect.push('<option>'+val.name+'</option>');
-				 items.push('<form action=\"@routes.MarketController.deleteCarKind()\" method=\"post\" >');
+				 items.push('<form action=\"@routes.CarKindController.deleteCarKind()\" method=\"post\" >');
 				 items.push('<input type="hidden" name="id" value="'+val.id+'"/>');
 			     items.push('<li id="' + val.id + '">' + val.name+' (' +val.country+ ')');
 			     if (kinds.indexOf(val.name)==-1) items.push('<input type="image" src="@routes.Assets.at("images/remove.png")"/>');
@@ -36,13 +36,13 @@
 			 $('#carKindsSelect').append(itemsSelect.join(''));
 		});
 		
-		$.get("@routes.MarketController.getCarModels()", function(result){
+		$.get("@routes.CarModelController.getCarModels()", function(result){
 			var items = [];
 			var itemsSelect = [];
 
 			 $.each(result, function(key, val) {
 				 itemsSelect.push('<option>'+val.name+'</option>');
-			     items.push('<form action=\"@routes.MarketController.deleteCarModel()\" method=\"post\" >');
+			     items.push('<form action=\"@routes.CarModelController.deleteCarModel()\" method=\"post\" >');
 				 items.push('<input type="hidden" name="id" value="'+val.id+'"/>');
 				 items.push('<li id="' + val.id + '">' + val.name+' (' +val.yearStart+ '/'+val.yearEnd+')');
 				 if (models.indexOf(val.name)==-1) items.push('<input type="image" src="@routes.Assets.at("images/remove.png")"/>');
@@ -56,14 +56,14 @@
 </script>
 
 <ul id="carKinds"></ul>
-<form action="@routes.MarketController.addCarKind()" method="post" >
+<form action="@routes.CarKindController.addCarKind()" method="post" >
 	<input type="text" name="name"  placeholder="name"/>
 	<input type="text" name="country" placeholder="country"/>
 	<button>Add Car Kind</button>
 </form>
 
 <ul id="carModels"></ul>
-<form action="@routes.MarketController.addCarModel()" method="post">
+<form action="@routes.CarModelController.addCarModel()" method="post">
 	<input type="text" name="name"  placeholder="name"/>
 	<input type="text" name="yearStart" placeholder="Year Start"/>
 	<input type="text" name="yearEnd" placeholder="Year End"/>
@@ -71,7 +71,7 @@
 </form>
 
 <ul id="carPositions"></ul>
-<form action="@routes.MarketController.addCarPosition()" method="post">
+<form action="@routes.CarPositionController.addCarPosition()" method="post">
 	<select id="carKindsSelect" name="carKindsSelect" ></select>
 	<select id="carModelsSelect" name="carModelsSelect" ></select>
 	<input type="text" name="od"  placeholder="od"/>
