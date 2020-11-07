@@ -69,8 +69,11 @@ public class MarketControllerTest extends WithApplication {
 
     	request = Helpers.fakeRequest(Helpers.GET, "/carKind/all");
     	result = Helpers.route(app, request);
-    	CarKind carKind = new ObjectMapper().readValue(Helpers.contentAsString(result), new TypeReference<List<CarKind>>(){}).get(0);
     	Assert.assertTrue(result.status() == Status.OK || result.status() == Status.SEE_OTHER);
+    	
+    	List<CarKind> carKinds = new ObjectMapper().readValue(Helpers.contentAsString(result), new TypeReference<List<CarKind>>(){});
+    	Assert.assertTrue(carKinds.size() == 1);
+    	CarKind carKind = carKinds.get(0);
     	Assert.assertEquals(this.carKind.getName(), carKind.getName());
     	Assert.assertEquals(this.carKind.getCountry(), carKind.getCountry());
     }
@@ -88,8 +91,11 @@ public class MarketControllerTest extends WithApplication {
 
     	request = Helpers.fakeRequest(Helpers.GET, "/carModel/all");
     	result = Helpers.route(app, request);
-    	CarModel carModel = new ObjectMapper().readValue(Helpers.contentAsString(result), new TypeReference<List<CarModel>>(){}).get(0);
     	Assert.assertTrue(result.status() == Status.OK || result.status() == Status.SEE_OTHER);
+    	
+    	List<CarModel> carModels = new ObjectMapper().readValue(Helpers.contentAsString(result), new TypeReference<List<CarModel>>(){});
+    	Assert.assertTrue(carModels.size() == 1);
+    	CarModel carModel = carModels.get(0);
     	Assert.assertEquals(this.carModel.getName(), carModel.getName());
     	Assert.assertEquals(this.carModel.getYearStart(), carModel.getYearStart());
     	Assert.assertEquals(this.carModel.getYearEnd(), carModel.getYearEnd());
@@ -110,13 +116,16 @@ public class MarketControllerTest extends WithApplication {
 
     	request = Helpers.fakeRequest(Helpers.GET, "/carPosition/all");
     	result = Helpers.route(app, request);
-		CarPosition carPositionResult = new ObjectMapper().readValue(Helpers.contentAsString(result), new TypeReference<List<CarPosition>>(){}).get(0);
-
     	Assert.assertTrue(result.status() == Status.OK || result.status() == Status.SEE_OTHER);
-    	Assert.assertEquals(carPosition.getKind().getName(), carPositionResult.getKind().getName());
-    	Assert.assertEquals(carPosition.getModel().getName(), carPositionResult.getModel().getName());
-    	Assert.assertEquals(carPosition.getOd(), carPositionResult.getOd());
-    	Assert.assertEquals(carPosition.getPrice(), carPositionResult.getPrice());
-    	Assert.assertEquals(carPosition.getYearIssue(), carPositionResult.getYearIssue());
+    	
+		List<CarPosition> carPositions = new ObjectMapper().readValue(Helpers.contentAsString(result), new TypeReference<List<CarPosition>>(){});
+		Assert.assertTrue(carPositions.size() == 1);
+		CarPosition carPosition = carPositions.get(0);
+
+    	Assert.assertEquals(this.carPosition.getKind().getName(), carPosition.getKind().getName());
+    	Assert.assertEquals(this.carPosition.getModel().getName(), carPosition.getModel().getName());
+    	Assert.assertEquals(this.carPosition.getOd(), carPosition.getOd());
+    	Assert.assertEquals(this.carPosition.getPrice(), carPosition.getPrice());
+    	Assert.assertEquals(this.carPosition.getYearIssue(), carPosition.getYearIssue());
     }
 }
