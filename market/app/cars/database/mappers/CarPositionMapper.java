@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.One;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.SelectProvider;
+import org.apache.ibatis.annotations.Update;
 
 import cars.database.beans.CarPosition;
 import cars.database.providers.CarPositionSelectProvider;
@@ -18,7 +19,12 @@ public interface CarPositionMapper {
 	@Insert("INSERT into market.carposition(kindId, modelId, yearIssue, od, price) VALUES(SELECT id FROM market.carkind WHERE name=#{kind.name}, "
 			+ "SELECT id FROM market.carmodel WHERE name=#{model.name}, "
 			+ "#{yearIssue}, #{od}, #{price})")
-	void addCarToMarket(CarPosition carposition);
+	void addCarPosition(CarPosition carposition);
+	
+	@Update("UPDATE market.carposition(kindId, modelId, yearIssue, od, price) kindId = (SELECT id FROM market.carkind WHERE name=#{kind.name}), "
+			+ "modelId = (SELECT id FROM market.carmodel WHERE name=#{model.name}), "
+			+ "yearIssue = #{yearIssue}, od = #{od}, price = #{price}) where id = #{id}")
+	void setCarPosition(CarPosition carposition);
 	
 	@Results({
         @Result(property = "kind", column = "kindId",  javaType=cars.database.beans.CarKind.class, one=@One(select = "cars.database.mappers.CarKindMapper.getKindById")),

@@ -7,17 +7,21 @@ GET     /                           controllers.MarketController.index
 
 POST    /carKind/add		   controllers.CarKindController.addCarKind(req: Request)
 GET      /carKind/all			   controllers.CarKindController.getCarKinds(req: Request)
+POST    /carKind/update     controllers.CarKindController.setCarKind(req: Request)
 POST		/carKind/delete 	   controllers.CarKindController.deleteCarKind(req: Request)
 
 
 POST   /carModel/add		   controllers.CarModelController.addCarModel(req: Request)
 GET   /carModel/all		   controllers.CarModelController.getCarModels(req: Request)
+POST    /carModel/update     controllers.CarModelController.setCarModel(req: Request)
 POST		/carModel/delete 	   controllers.CarModelController.deleteCarModel(req: Request)
 
 
 POST   /carPosition/add		   controllers.CarPositionController.addCarPosition(req: Request)
 GET   /carPosition/all		   controllers.CarPositionController.getCarPositions(req: Request)
+POST   /carPosition/update		   controllers.CarPositionController.setCarPosition(req: Request)
 POST		/carPosition/delete 	   controllers.CarPositionController.deleteCarPosition(req: Request)
+
 GET   /carPosition/search			controllers.CarPositionController.searchCarPositions(req: Request)
 
 

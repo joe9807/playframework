@@ -42,6 +42,14 @@ public class CarModelController extends Controller {
     	}, customContext).thenApplyAsync(carModels -> ok(play.libs.Json.toJson(carModels.stream().collect(Collectors.toList()))), customContext.current());
     }
     
+    public CompletionStage<Result> setCarModel(final Http.Request request) {
+    	CarModel carModel = formFactory.form(CarModel.class).bindFromRequest(request).get();
+    	
+    	return CompletableFuture.runAsync(() -> {
+    		database.setCarModel(carModel);
+    	}, customContext).thenApplyAsync(r->redirect(routes.MarketController.index()), customContext.current());
+    }
+    
     public CompletionStage<Result> deleteCarModel(final Http.Request request) {
     	CarModel carKind = formFactory.form(CarModel.class).bindFromRequest(request).get();
     	

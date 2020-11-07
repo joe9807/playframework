@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import cars.database.beans.CarKind;
 
@@ -13,6 +14,9 @@ import cars.database.beans.CarKind;
 public interface CarKindMapper {
 	@Insert("INSERT into market.carkind(name, country) VALUES(#{name}, #{country})")
 	void addCarKind(CarKind carKind);
+	
+	@Update("UPDATE market.carkind set name=#{name}, country=#{country} where id = #{id}")
+	void setCarKind(CarKind carKind);
 	
 	@Select("SELECT * from market.carkind where id = #{id}")
 	CarKind getKindById(int id);

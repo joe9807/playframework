@@ -35,20 +35,12 @@ public class CarPositionController extends Controller {
     		database.getCarPositions(carPosition);
     	}, customContext).thenApplyAsync(r->redirect(routes.MarketController.index()), customContext.current());
     }
-	
-    public CompletionStage<Result> deleteCarPosition(final Http.Request request) {
-    	CarPosition carPosition = formFactory.form(CarPosition.class).bindFromRequest(request).get();
-    	
-    	return CompletableFuture.runAsync(() -> {
-    		database.deleteCarPositionById(carPosition.getId());
-    	}, customContext).thenApplyAsync(r->redirect(routes.MarketController.index()), customContext.current());
-    }
-
+    
     public CompletionStage<Result> addCarPosition(final Http.Request request) {
     	CarPosition carPosition = formFactory.form(CarPosition.class).bindFromRequest(request).get();
     	
     	return CompletableFuture.runAsync(() -> {
-    		database.addCarToMarket(carPosition);
+    		database.addCarPosition(carPosition);
     	}, customContext).thenApplyAsync(r->redirect(routes.MarketController.index()), customContext.current());
     }
     
@@ -56,5 +48,21 @@ public class CarPositionController extends Controller {
     	return CompletableFuture.supplyAsync(() -> {
     		return database.getCarPositions(null);
     	}, customContext).thenApplyAsync(carKinds -> ok(play.libs.Json.toJson(carKinds.stream().collect(Collectors.toList()))), customContext.current());
+    }
+    
+    public CompletionStage<Result> setCarPosition(final Http.Request request) {
+    	CarPosition carPosition = formFactory.form(CarPosition.class).bindFromRequest(request).get();
+    	
+    	return CompletableFuture.runAsync(() -> {
+    		database.setCarPosition(carPosition);
+    	}, customContext).thenApplyAsync(r->redirect(routes.MarketController.index()), customContext.current());
+    }
+	
+    public CompletionStage<Result> deleteCarPosition(final Http.Request request) {
+    	CarPosition carPosition = formFactory.form(CarPosition.class).bindFromRequest(request).get();
+    	
+    	return CompletableFuture.runAsync(() -> {
+    		database.deleteCarPositionById(carPosition.getId());
+    	}, customContext).thenApplyAsync(r->redirect(routes.MarketController.index()), customContext.current());
     }
 }

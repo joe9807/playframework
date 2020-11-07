@@ -27,6 +27,12 @@ public class H2Database extends GenericDatabase{
 			session.getMapper(CarModelMapper.class).addCarModel(carModel);
 		});
 	}
+	
+	public void setCarModel(CarModel carModel) {
+		doInTransaction(session->{
+			session.getMapper(CarModelMapper.class).setCarModel(carModel);
+		});
+	}
 
 	public void addCardKind(CarKind carKind) {
 		doInTransaction(session->{
@@ -34,9 +40,21 @@ public class H2Database extends GenericDatabase{
 		});
 	}
 	
-	public void addCarToMarket(CarPosition carPosition) {
+	public void setCardKind(CarKind carKind) {
 		doInTransaction(session->{
-			session.getMapper(CarPositionMapper.class).addCarToMarket(carPosition);
+			session.getMapper(CarKindMapper.class).setCarKind(carKind);
+		});
+	}
+	
+	public void addCarPosition(CarPosition carPosition) {
+		doInTransaction(session->{
+			session.getMapper(CarPositionMapper.class).addCarPosition(carPosition);
+		});
+	}
+	
+	public void setCarPosition(CarPosition carPosition) {
+		doInTransaction(session->{
+			session.getMapper(CarPositionMapper.class).setCarPosition(carPosition);
 		});
 	}
 	

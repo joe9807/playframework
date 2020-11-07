@@ -28,14 +28,6 @@ public class CarKindController extends Controller {
 		this.database=H2Database.getInstance(config.getString("db.default.url"));
     }
 	
-    public CompletionStage<Result> deleteCarKind(final Http.Request request) {
-    	CarKind carKind = formFactory.form(CarKind.class).bindFromRequest(request).get();
-    	
-    	return CompletableFuture.runAsync(() -> {
-    		database.deleteCarKindById(carKind.getId());
-    	}, customContext).thenApplyAsync(r->redirect(routes.MarketController.index()), customContext.current());
-    }
-
     public CompletionStage<Result> addCarKind(final Http.Request request) {
     	CarKind carKind = formFactory.form(CarKind.class).bindFromRequest(request).get();
     	
@@ -48,5 +40,21 @@ public class CarKindController extends Controller {
     	return CompletableFuture.supplyAsync(() -> {
     		return database.getCarKinds();
     	}, customContext).thenApplyAsync(carKinds -> ok(play.libs.Json.toJson(carKinds.stream().collect(Collectors.toList()))), customContext.current());
+    }
+    
+    public CompletionStage<Result> setCarKind(final Http.Request request) {
+    	CarKind carKind = formFactory.form(CarKind.class).bindFromRequest(request).get();
+    	
+    	return CompletableFuture.runAsync(() -> {
+    		database.addCardKind(carKind);
+    	}, customContext).thenApplyAsync(r->redirect(routes.MarketController.index()), customContext.current());
+    }
+    
+    public CompletionStage<Result> deleteCarKind(final Http.Request request) {
+    	CarKind carKind = formFactory.form(CarKind.class).bindFromRequest(request).get();
+    	
+    	return CompletableFuture.runAsync(() -> {
+    		database.deleteCarKindById(carKind.getId());
+    	}, customContext).thenApplyAsync(r->redirect(routes.MarketController.index()), customContext.current());
     }
 }
