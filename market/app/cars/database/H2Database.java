@@ -34,13 +34,13 @@ public class H2Database extends GenericDatabase{
 		});
 	}
 
-	public void addCardKind(CarKind carKind) {
+	public void addCarKind(CarKind carKind) {
 		doInTransaction(session->{
 			session.getMapper(CarKindMapper.class).addCarKind(carKind);
 		});
 	}
 	
-	public void setCardKind(CarKind carKind) {
+	public void setCarKind(CarKind carKind) {
 		doInTransaction(session->{
 			session.getMapper(CarKindMapper.class).setCarKind(carKind);
 		});
