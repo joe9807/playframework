@@ -209,6 +209,21 @@ public class MarketControllerTest extends WithApplication {
     	Assert.assertEquals(this.carPosition.getPrice(), carPosition.getPrice());
     	Assert.assertEquals(this.carPosition.getYearIssue(), carPosition.getYearIssue());
     	
+    	//search
+    	request = Helpers.fakeRequest(Helpers.GET, "/carPosition/search").bodyForm(formData);
+    	result = Helpers.route(app, request);
+    	Assert.assertTrue(result.status() == Status.OK || result.status() == Status.SEE_OTHER);
+    	
+		carPositions = new ObjectMapper().readValue(Helpers.contentAsString(result), new TypeReference<List<CarPosition>>(){});
+		Assert.assertTrue(carPositions.size() == 1);
+		carPosition = carPositions.get(0);
+
+    	Assert.assertEquals(this.carPosition.getKind().getName(), carPosition.getKind().getName());
+    	Assert.assertEquals(this.carPosition.getModel().getName(), carPosition.getModel().getName());
+    	Assert.assertEquals(this.carPosition.getOd(), carPosition.getOd());
+    	Assert.assertEquals(this.carPosition.getPrice(), carPosition.getPrice());
+    	Assert.assertEquals(this.carPosition.getYearIssue(), carPosition.getYearIssue());
+    	
     	//Update
     	formData.put("id", String.valueOf(carPosition.getId()));
         formData.put("yearIssue", "1940");

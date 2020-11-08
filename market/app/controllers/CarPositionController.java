@@ -23,11 +23,6 @@ public class CarPositionController extends Controller {
 		this.customContext=customContext;
 		this.repository=repository;
     }
-	
-    public CompletionStage<Result> searchCarPositions(final Http.Request request) {
-    	CarPosition carPosition = formFactory.form(CarPosition.class).bindFromRequest(request).get();
-    	return repository.get(carPosition).thenApplyAsync(r->redirect(routes.MarketController.index()), customContext.current());
-    }
     
     public CompletionStage<Result> addCarPosition(final Http.Request request) {
     	CarPosition carPosition = formFactory.form(CarPosition.class).bindFromRequest(request).get();
@@ -35,7 +30,8 @@ public class CarPositionController extends Controller {
     }
     
     public CompletionStage<Result> getCarPositions(final Http.Request request) {
-    	return repository.get(null).thenApplyAsync(carKinds -> ok(play.libs.Json.toJson(carKinds.stream().collect(Collectors.toList()))), customContext.current());
+    	CarPosition carPosition = formFactory.form(CarPosition.class).bindFromRequest(request).get();
+    	return repository.get(carPosition).thenApplyAsync(carPositions -> ok(play.libs.Json.toJson(carPositions.stream().collect(Collectors.toList()))), customContext.current());
     }
     
     public CompletionStage<Result> setCarPosition(final Http.Request request) {

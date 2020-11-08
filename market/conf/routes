@@ -22,7 +22,7 @@ GET   /carPosition/all		   controllers.CarPositionController.getCarPositions(req
 POST   /carPosition/update		   controllers.CarPositionController.setCarPosition(req: Request)
 POST		/carPosition/delete 	   controllers.CarPositionController.deleteCarPosition(req: Request)
 
-GET   /carPosition/search			controllers.CarPositionController.searchCarPositions(req: Request)
+GET   /carPosition/search			controllers.CarPositionController.getCarPositions(req: Request)
 
 
 # Map static resources from the /public folder to the /assets URL path
