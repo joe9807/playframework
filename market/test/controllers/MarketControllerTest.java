@@ -50,7 +50,7 @@ public class MarketControllerTest extends WithApplication {
     }
 
     @Test
-    public void testIndex() {
+    public void testActualRoute() {
         Http.RequestBuilder request = new Http.RequestBuilder().method(Helpers.GET).uri("/");
 
         Result result = Helpers.route(app, request);
@@ -58,7 +58,52 @@ public class MarketControllerTest extends WithApplication {
     }
     
     @Test
-    public void testAddCarKind() throws Exception{
+    public void testCarKind() throws Exception{
+    	//Create
+    	Map<String, String> formData = createCarKind();
+
+    	//Read
+    	Http.RequestBuilder request = Helpers.fakeRequest(Helpers.GET, "/carKind/all");
+    	Result result = Helpers.route(app, request);
+    	Assert.assertTrue(result.status() == Status.OK || result.status() == Status.SEE_OTHER);
+    	
+    	List<CarKind> carKinds = new ObjectMapper().readValue(Helpers.contentAsString(result), new TypeReference<List<CarKind>>(){});
+    	Assert.assertEquals(carKinds.size(), 1);
+    	CarKind carKind = carKinds.get(0);
+    	Assert.assertEquals(this.carKind.getName(), carKind.getName());
+    	Assert.assertEquals(this.carKind.getCountry(), carKind.getCountry());
+    	
+    	//Update
+    	formData.put("id", String.valueOf(carKind.getId()));
+    	formData.put("name", carKind.getName()+"_set");
+        formData.put("country", carKind.getCountry()+"_set");
+    	request = Helpers.fakeRequest(Helpers.POST, "/carKind/update").bodyForm(formData);
+    	result = Helpers.route(app, request);
+    	Assert.assertTrue(result.status() == Status.OK || result.status() == Status.SEE_OTHER);
+    	
+    	//Read
+    	request = Helpers.fakeRequest(Helpers.GET, "/carKind/all");
+    	result = Helpers.route(app, request);
+    	Assert.assertTrue(result.status() == Status.OK || result.status() == Status.SEE_OTHER);
+    	
+    	carKinds = new ObjectMapper().readValue(Helpers.contentAsString(result), new TypeReference<List<CarKind>>(){});
+    	Assert.assertTrue(carKinds.size() == 1);
+    	carKind = carKinds.get(0);
+    	Assert.assertEquals(this.carKind.getName()+"_set", carKind.getName());
+    	Assert.assertEquals(this.carKind.getCountry()+"_set", carKind.getCountry());
+    	
+    	//Delete
+    	request = Helpers.fakeRequest(Helpers.POST, "/carKind/delete").bodyForm(formData);
+    	result = Helpers.route(app, request);
+    	Assert.assertTrue(result.status() == Status.OK || result.status() == Status.SEE_OTHER);
+    	
+    	request = Helpers.fakeRequest(Helpers.GET, "/carKind/all");
+    	result = Helpers.route(app, request);
+    	Assert.assertTrue(result.status() == Status.OK || result.status() == Status.SEE_OTHER);
+    	Assert.assertEquals(Helpers.contentAsString(result), "[]");
+    }
+    
+    private Map<String, String> createCarKind(){
     	Map<String, String> formData = new HashMap<>();
         formData.put("name", carKind.getName());
         formData.put("country", carKind.getCountry());
@@ -66,20 +111,11 @@ public class MarketControllerTest extends WithApplication {
     	Http.RequestBuilder request = Helpers.fakeRequest(Helpers.POST, "/carKind/add").bodyForm(formData);
     	Result result = Helpers.route(app, request);
     	Assert.assertTrue(result.status() == Status.OK || result.status() == Status.SEE_OTHER);
-
-    	request = Helpers.fakeRequest(Helpers.GET, "/carKind/all");
-    	result = Helpers.route(app, request);
-    	Assert.assertTrue(result.status() == Status.OK || result.status() == Status.SEE_OTHER);
     	
-    	List<CarKind> carKinds = new ObjectMapper().readValue(Helpers.contentAsString(result), new TypeReference<List<CarKind>>(){});
-    	Assert.assertTrue(carKinds.size() == 1);
-    	CarKind carKind = carKinds.get(0);
-    	Assert.assertEquals(this.carKind.getName(), carKind.getName());
-    	Assert.assertEquals(this.carKind.getCountry(), carKind.getCountry());
+    	return formData;
     }
     
-    @Test
-    public void testAddCarModel() throws Exception{
+    private Map<String, String> createCarModel(){
     	Map<String, String> formData = new HashMap<>();
         formData.put("name", carModel.getName());
         formData.put("yearStart", carModel.getYearStart());
@@ -88,9 +124,18 @@ public class MarketControllerTest extends WithApplication {
     	Http.RequestBuilder request = Helpers.fakeRequest(Helpers.POST, "/carModel/add").bodyForm(formData);
     	Result result = Helpers.route(app, request);
     	Assert.assertTrue(result.status() == Status.OK || result.status() == Status.SEE_OTHER);
+    	
+    	return formData;
+    }
+    
+    @Test
+    public void testCarModel() throws Exception{
+    	//Create
+    	Map<String, String> formData = createCarModel();
 
-    	request = Helpers.fakeRequest(Helpers.GET, "/carModel/all");
-    	result = Helpers.route(app, request);
+    	//Read
+    	Http.RequestBuilder request = Helpers.fakeRequest(Helpers.GET, "/carModel/all");
+    	Result result = Helpers.route(app, request);
     	Assert.assertTrue(result.status() == Status.OK || result.status() == Status.SEE_OTHER);
     	
     	List<CarModel> carModels = new ObjectMapper().readValue(Helpers.contentAsString(result), new TypeReference<List<CarModel>>(){});
@@ -99,10 +144,45 @@ public class MarketControllerTest extends WithApplication {
     	Assert.assertEquals(this.carModel.getName(), carModel.getName());
     	Assert.assertEquals(this.carModel.getYearStart(), carModel.getYearStart());
     	Assert.assertEquals(this.carModel.getYearEnd(), carModel.getYearEnd());
+    	
+    	//Update
+    	formData.put("id", String.valueOf(carModel.getId()));
+    	formData.put("name", carModel.getName()+"_set");
+        formData.put("yearStart", "1927");
+        formData.put("yearEnd", "1930");
+    	request = Helpers.fakeRequest(Helpers.POST, "/carModel/update").bodyForm(formData);
+    	result = Helpers.route(app, request);
+    	Assert.assertTrue(result.status() == Status.OK || result.status() == Status.SEE_OTHER);
+    	
+    	//Read
+    	request = Helpers.fakeRequest(Helpers.GET, "/carModel/all");
+    	result = Helpers.route(app, request);
+    	Assert.assertTrue(result.status() == Status.OK || result.status() == Status.SEE_OTHER);
+    	
+    	carModels = new ObjectMapper().readValue(Helpers.contentAsString(result), new TypeReference<List<CarModel>>(){});
+    	Assert.assertTrue(carModels.size() == 1);
+    	carModel = carModels.get(0);
+    	Assert.assertEquals(this.carModel.getName()+"_set", carModel.getName());
+    	Assert.assertEquals("1927", carModel.getYearStart());
+    	Assert.assertEquals("1930", carModel.getYearEnd());
+    	
+    	//Delete
+    	request = Helpers.fakeRequest(Helpers.POST, "/carModel/delete").bodyForm(formData);
+    	result = Helpers.route(app, request);
+    	Assert.assertTrue(result.status() == Status.OK || result.status() == Status.SEE_OTHER);
+    	
+    	request = Helpers.fakeRequest(Helpers.GET, "/carModel/all");
+    	result = Helpers.route(app, request);
+    	Assert.assertTrue(result.status() == Status.OK || result.status() == Status.SEE_OTHER);
+    	Assert.assertEquals(Helpers.contentAsString(result), "[]");
     }
     
 	@Test
-    public void testAddCarPosition() throws Exception{
+    public void testCarPosition() throws Exception{
+		createCarKind();
+		createCarModel();
+		
+		//Create
     	Map<String, String> formData = new HashMap<>();
         formData.put("kind.name", carPosition.getKind().getName());
         formData.put("model.name", carPosition.getModel().getName());
@@ -114,6 +194,7 @@ public class MarketControllerTest extends WithApplication {
     	Result result = Helpers.route(app, request);
     	Assert.assertTrue(result.status() == Status.OK || result.status() == Status.SEE_OTHER);
 
+    	//Read
     	request = Helpers.fakeRequest(Helpers.GET, "/carPosition/all");
     	result = Helpers.route(app, request);
     	Assert.assertTrue(result.status() == Status.OK || result.status() == Status.SEE_OTHER);
@@ -127,5 +208,40 @@ public class MarketControllerTest extends WithApplication {
     	Assert.assertEquals(this.carPosition.getOd(), carPosition.getOd());
     	Assert.assertEquals(this.carPosition.getPrice(), carPosition.getPrice());
     	Assert.assertEquals(this.carPosition.getYearIssue(), carPosition.getYearIssue());
+    	
+    	//Update
+    	formData.put("id", String.valueOf(carPosition.getId()));
+        formData.put("yearIssue", "1940");
+        formData.put("od", String.valueOf("1"));
+        formData.put("price", String.valueOf("2"));
+        
+        request = Helpers.fakeRequest(Helpers.POST, "/carPosition/update").bodyForm(formData);
+    	result = Helpers.route(app, request);
+    	Assert.assertTrue(result.status() == Status.OK || result.status() == Status.SEE_OTHER);
+    	
+    	//Read
+    	request = Helpers.fakeRequest(Helpers.GET, "/carPosition/all");
+    	result = Helpers.route(app, request);
+    	Assert.assertTrue(result.status() == Status.OK || result.status() == Status.SEE_OTHER);
+    	
+		carPositions = new ObjectMapper().readValue(Helpers.contentAsString(result), new TypeReference<List<CarPosition>>(){});
+		Assert.assertTrue(carPositions.size() == 1);
+		carPosition = carPositions.get(0);
+
+    	Assert.assertEquals(this.carPosition.getKind().getName(), carPosition.getKind().getName());
+    	Assert.assertEquals(this.carPosition.getModel().getName(), carPosition.getModel().getName());
+    	Assert.assertEquals("1940", carPosition.getYearIssue());
+    	Assert.assertEquals(1, carPosition.getOd());
+    	Assert.assertEquals(2, carPosition.getPrice());
+    	
+    	//Delete
+    	request = Helpers.fakeRequest(Helpers.POST, "/carPosition/delete").bodyForm(formData);
+    	result = Helpers.route(app, request);
+    	Assert.assertTrue(result.status() == Status.OK || result.status() == Status.SEE_OTHER);
+    	
+    	request = Helpers.fakeRequest(Helpers.GET, "/carPosition/all");
+    	result = Helpers.route(app, request);
+    	Assert.assertTrue(result.status() == Status.OK || result.status() == Status.SEE_OTHER);
+    	Assert.assertEquals(Helpers.contentAsString(result), "[]");
     }
 }

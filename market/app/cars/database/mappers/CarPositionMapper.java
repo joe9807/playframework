@@ -21,9 +21,9 @@ public interface CarPositionMapper {
 			+ "#{yearIssue}, #{od}, #{price})")
 	void addCarPosition(CarPosition carposition);
 	
-	@Update("UPDATE market.carposition(kindId, modelId, yearIssue, od, price) kindId = (SELECT id FROM market.carkind WHERE name=#{kind.name}), "
+	@Update("UPDATE market.carposition set kindId = (SELECT id FROM market.carkind WHERE name=#{kind.name}), "
 			+ "modelId = (SELECT id FROM market.carmodel WHERE name=#{model.name}), "
-			+ "yearIssue = #{yearIssue}, od = #{od}, price = #{price}) where id = #{id}")
+			+ "yearIssue = #{yearIssue}, od = #{od}, price = #{price}where id = #{id}")
 	void setCarPosition(CarPosition carposition);
 	
 	@Results({

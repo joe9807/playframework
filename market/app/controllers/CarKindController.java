@@ -46,7 +46,7 @@ public class CarKindController extends Controller {
     	CarKind carKind = formFactory.form(CarKind.class).bindFromRequest(request).get();
     	
     	return CompletableFuture.runAsync(() -> {
-    		database.addCardKind(carKind);
+    		database.setCardKind(carKind);
     	}, customContext).thenApplyAsync(r->redirect(routes.MarketController.index()), customContext.current());
     }
     
