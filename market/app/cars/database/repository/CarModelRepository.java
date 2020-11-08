@@ -6,21 +6,20 @@ import java.util.concurrent.CompletionStage;
 
 import javax.inject.Inject;
 
-import com.typesafe.config.Config;
-
 import cars.database.DatabaseExecutionContext;
 import cars.database.H2Database;
 import cars.database.beans.CarModel;
 import cars.database.dao.CarModelDAO;
+import play.db.Database;
 
 public class CarModelRepository implements CarModelDAO {
 	private final DatabaseExecutionContext executionContext;
 	private H2Database database;
 	
 	@Inject
-	public CarModelRepository(DatabaseExecutionContext executionContext, Config config) {
+	public CarModelRepository(DatabaseExecutionContext executionContext, Database database) {
 		this.executionContext=executionContext;
-		this.database=H2Database.getInstance(config.getString("db.default.url"));
+		this.database=H2Database.getInstance(database.getUrl());
 	}
 
 	@Override
