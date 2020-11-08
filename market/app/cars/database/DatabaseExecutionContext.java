@@ -10,5 +10,4 @@ public class DatabaseExecutionContext extends CustomExecutionContext {
 	public DatabaseExecutionContext(ActorSystem actorSystem, String name) {
 		super(actorSystem, "database.dispatcher");
 	}
-
 }

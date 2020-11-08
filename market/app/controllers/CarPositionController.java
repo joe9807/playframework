@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
-import cars.database.DatabaseExecutionContext;
 import cars.database.beans.CarPosition;
 import cars.database.repository.CarPositionRepository;
 import play.data.FormFactory;
@@ -15,11 +14,11 @@ import play.mvc.Result;
 
 public class CarPositionController extends Controller {
 	private final FormFactory formFactory;
-	private final DatabaseExecutionContext customContext;
+	private final ControllerExecutionContext customContext;
 	private final CarPositionRepository repository;
 
 	@Inject
-    public CarPositionController(FormFactory formFactory, DatabaseExecutionContext customContext, CarPositionRepository repository) {
+    public CarPositionController(FormFactory formFactory, ControllerExecutionContext customContext, CarPositionRepository repository) {
 		this.formFactory=formFactory;
 		this.customContext=customContext;
 		this.repository=repository;
