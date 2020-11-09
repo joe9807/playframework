@@ -31,3 +31,5 @@ PRIMARY KEY (id)
 drop table market.carkind
 drop table market.carmodel
 drop table market.carposition
+
+--select CARKIND.name, CARMODEL.name, CARPOSITION.od, CARPOSITION.PRICE, CARPOSITION.YEARISSUE from MARKET.CARPOSITION, market.CARKIND, market.CARMODEL where CARKIND.ID = CARPOSITION.KINDID and CARMODEL.ID=CARPOSITION.MODELID
