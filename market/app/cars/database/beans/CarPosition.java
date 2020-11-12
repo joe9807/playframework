@@ -1,8 +1,5 @@
 package cars.database.beans;
 
-import cars.database.beans.CarKind;
-import cars.database.beans.CarModel;
-
 public class CarPosition {
 	private int id;
 	private CarKind kind;

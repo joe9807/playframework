@@ -2,8 +2,6 @@ package cars.database;
 
 import java.util.List;
 
-import cars.database.GenericDatabase;
-import cars.database.H2Database;
 import cars.database.beans.CarKind;
 import cars.database.beans.CarModel;
 import cars.database.beans.CarPosition;
